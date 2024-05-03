@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login } from "@/http/api"
@@ -46,6 +47,9 @@ function LoginPage() {
 			<CardTitle className="text-2xl">Login</CardTitle>
 			<CardDescription>
 			Enter your email below to login to your account
+			<br />
+			{mutation.isPending && <span className="text-red-500 text-sm">Loading...</span>}
+			{mutation.isError && <span className="text-red-500 text-sm">{mutation.error.message}</span>}
 			</CardDescription>
 		</CardHeader>
 		<CardContent>
@@ -74,7 +78,10 @@ function LoginPage() {
 				<Link to={''} className="ml-auto inline-block text-sm underline">
 					Forgot your password?
 				</Link>
-			<Button onClick={handleLoginSubmit} type="submit" className="w-full">
+			<Button onClick={handleLoginSubmit} type="submit" className="w-full" disabled={mutation.isPending}>
+				{
+					mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+				}
 				Login
 			</Button>
 			</div>
